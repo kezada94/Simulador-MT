@@ -4,3 +4,4 @@ Makefile
 *.pro
 *.app
 *.o
+*.xcodeproj
