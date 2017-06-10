@@ -1,0 +1,6 @@
+LICENCE
+README.md
+Makefile
+*.pro
+*.app
+*.o
