@@ -1,9 +1,10 @@
 #ifndef TURING_H
 #define TURING_H
 
-#include <string.h>
+#include <string>
 
 //Declaracion de estructuras de datos a utilizar
+using namespace std;
 
 struct nodo_cinta
 {
@@ -59,3 +60,5 @@ void agregar_nodo_trans(nodo_trans** lista_transiciones, transicion* nueva_trans
 maquina_turing* crear_maquina_turing(puntero* p, nodo_cinta* cinta,	nodo_trans* lista_transiciones,	string palabra,	string estado_incial, string estado_final);
 
 bool leer_palabra(maquina_turing** turing);
+
+#endif
