@@ -29,6 +29,8 @@ public:
     void setEstado_final(string fin);
     void setEstado_inicial(string ini);
     
+    void validarPalabra(string palabra);
+    
 private:
     puntero* p;
     nodo_cinta* cinta;

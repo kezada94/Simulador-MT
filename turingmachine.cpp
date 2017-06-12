@@ -8,4 +8,8 @@
 
 #include "turingmachine.hpp"
 
-TuringMachine::TuringMachine() : palabra(""){   }
+TuringMachine::TuringMachine() : p(nullptr), cinta(nullptr), transiciones(nullptr), palabra(""), estado_inicial(""), estado_final(""){    }
+
+void TuringMachine::validarPalabra(string palabra){
+
+}
