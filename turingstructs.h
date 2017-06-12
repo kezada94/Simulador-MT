@@ -47,7 +47,9 @@ struct maquina_turing
 //Declaracion de funciones
 nodo_cinta* crear_cinta(char a);
 
-void agregar_nodo_cinta(nodo_cinta** cinta, char a);
+void agregar_derecha_nodo_cinta(nodo_cinta** cinta, char a);
+
+void agregar_izquierda_nodo_cinta(nodo_cinta** cinta, char a);
 
 puntero* crear_puntero(nodo_cinta* comienzo, string estado_actual);
 
