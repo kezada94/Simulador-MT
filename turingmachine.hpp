@@ -29,7 +29,8 @@ public:
     void setEstado_final(string fin);
     void setEstado_inicial(string ini);
     
-    void validarPalabra(string palabra);
+    bool validarPalabra(string palabra);
+    bool leer_transicion();
     
 private:
     puntero* p;

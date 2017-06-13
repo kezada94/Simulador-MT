@@ -59,5 +59,4 @@ nodo_trans* crear_nodo_trans(transicion* nueva_trans);
 
 void agregar_nodo_trans(nodo_trans** lista_transiciones, transicion* nueva_trans);
 
-
 #endif
