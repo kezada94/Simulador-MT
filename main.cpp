@@ -4,10 +4,8 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    QMainWindow *widget = new QMainWindow;
-    Ui::MainWindow ui;
-    ui.setupUi(widget);
+    Ui_MainWindow *ui = new Ui_MainWindow;
 
-    widget->show();
+    ui->show();
     return app.exec();
 }

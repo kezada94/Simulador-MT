@@ -33,11 +33,17 @@ bool TuringMachine::leer_transicion(){
             if(trans->transicion->movimiento_puntero == 'd' || trans->transicion->movimiento_puntero == 'D'){
                 //movimiento a la derecha
                 p->posicion->caracter = trans->transicion->simbolo_destino;
+                if (p->posicion->derecha == NULL){
+                    agregar_derecha_nodo_cinta(&cinta, ' ');
+                }
                 p->posicion = p->posicion->derecha;
                 p->estado_actual = trans->transicion->estado_destino;
             }else{
                 //movimiento izquierda
                 p->posicion->caracter = trans->transicion->simbolo_destino;
+                if (p->posicion->izquierda == NULL){
+                    agregar_izquierda_nodo_cinta(&cinta, ' ');
+                }
                 p->posicion = p->posicion->izquierda;
                 p->estado_actual = trans->transicion->estado_destino;
             }

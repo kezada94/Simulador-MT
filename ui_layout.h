@@ -25,11 +25,14 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include <QtWidgets/QInputDialog>
+#include <QtWidgets/QMessageBox>
+#include "ui_input_word.h"
 
-QT_BEGIN_NAMESPACE
 
-class Ui_MainWindow
+class Ui_MainWindow : public QMainWindow
 {
+    Q_OBJECT
 public:
     QAction *actionSalir;
     QAction *actionInstrucciones;
@@ -60,18 +63,18 @@ public:
     QMenu *menuAyuda;
     QStatusBar *statusbar;
 
-    void setupUi(QMainWindow *MainWindow)
+    Ui_MainWindow()
     {
-        if (MainWindow->objectName().isEmpty())
-            MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(511, 334);
-        actionSalir = new QAction(MainWindow);
+        if (this->objectName().isEmpty())
+            this->setObjectName(QStringLiteral("MainWindow"));
+        this->resize(511, 334);
+        actionSalir = new QAction(this);
         actionSalir->setObjectName(QStringLiteral("actionSalir"));
-        actionInstrucciones = new QAction(MainWindow);
+        actionInstrucciones = new QAction(this);
         actionInstrucciones->setObjectName(QStringLiteral("actionInstrucciones"));
-        actionAcerca_de = new QAction(MainWindow);
+        actionAcerca_de = new QAction(this);
         actionAcerca_de->setObjectName(QStringLiteral("actionAcerca_de"));
-        centralwidget = new QWidget(MainWindow);
+        centralwidget = new QWidget(this);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         gridLayoutWidget = new QWidget(centralwidget);
         gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
@@ -167,18 +170,18 @@ public:
 
         gridLayoutMain->addWidget(buttonValidar, 1, 1, 1, 1);
 
-        MainWindow->setCentralWidget(centralwidget);
-        menubar = new QMenuBar(MainWindow);
+        this->setCentralWidget(centralwidget);
+        menubar = new QMenuBar(this);
         menubar->setObjectName(QStringLiteral("menubar"));
         menubar->setGeometry(QRect(0, 0, 511, 30));
         menuArchivo = new QMenu(menubar);
         menuArchivo->setObjectName(QStringLiteral("menuArchivo"));
         menuAyuda = new QMenu(menubar);
         menuAyuda->setObjectName(QStringLiteral("menuAyuda"));
-        MainWindow->setMenuBar(menubar);
-        statusbar = new QStatusBar(MainWindow);
+        this->setMenuBar(menubar);
+        statusbar = new QStatusBar(this);
         statusbar->setObjectName(QStringLiteral("statusbar"));
-        MainWindow->setStatusBar(statusbar);
+        this->setStatusBar(statusbar);
 
         menubar->addAction(menuArchivo->menuAction());
         menubar->addAction(menuAyuda->menuAction());
@@ -187,14 +190,17 @@ public:
         menuAyuda->addSeparator();
         menuAyuda->addAction(actionAcerca_de);
 
-        retranslateUi(MainWindow);
+        retranslateUi();
+        
+        connect(this->buttonAgregar, SIGNAL (clicked()), this, SLOT (buttonValidarClicked()));
+        connect(this->buttonCambiarInicial, SIGNAL (clicked()), this, SLOT (buttonCambiarInicialClicked()));
+        connect(this->buttonCambiarFinal, SIGNAL (clicked()), this, SLOT (buttonCambiarFinalClicked()));
 
-        QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
 
-    void retranslateUi(QMainWindow *MainWindow)
+    void retranslateUi()
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
+        setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
         actionSalir->setText(QApplication::translate("MainWindow", "&Salir", Q_NULLPTR));
         actionInstrucciones->setText(QApplication::translate("MainWindow", "&Instrucciones", Q_NULLPTR));
         actionAcerca_de->setText(QApplication::translate("MainWindow", "&Acerca de...", Q_NULLPTR));
@@ -212,13 +218,27 @@ public:
         menuArchivo->setTitle(QApplication::translate("MainWindow", "&Archivo", Q_NULLPTR));
         menuAyuda->setTitle(QApplication::translate("MainWindow", "A&yuda", Q_NULLPTR));
     } // retranslateUi
-
+    
+private slots:
+    void buttonValidarClicked(){
+        QString palabra = QInputDialog::getText(this, "exam", "percen", QLineEdit::Normal,nullptr);
+        
+        
+    }
+    void buttonModificarClicked(){};
+    void buttonEliminarClicked(){};
+    void buttonAgregarClicked(){};
+    void buttonCambiarFinalClicked(){
+        QString palabra = QInputDialog::getText(this, "exam", "Ingrese estado final:", QLineEdit::Normal, nullptr);
+        labelEstadoFinal->setText(palabra);
+        
+    };
+    void buttonCambiarInicialClicked(){
+        QString palabra = QInputDialog::getText(this, "exam", "Ingrese estado incial:", QLineEdit::Normal, nullptr);
+        labelEstadoInicial->setText(palabra);
+    };
 };
 
-namespace Ui {
-    class MainWindow: public Ui_MainWindow {};
-} // namespace Ui
 
-QT_END_NAMESPACE
 
 #endif // UI_LAYOUT_H
