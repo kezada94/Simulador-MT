@@ -11,6 +11,7 @@
 
 #include "turingstructs.h"
 
+
 class TuringMachine {
     
 public:

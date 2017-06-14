@@ -27,8 +27,8 @@
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QMessageBox>
-#include "ui_input_word.h"
 
+#include "dialog_transicion.hpp"
 
 class Ui_MainWindow : public QMainWindow
 {
@@ -192,9 +192,10 @@ public:
 
         retranslateUi();
         
-        connect(this->buttonAgregar, SIGNAL (clicked()), this, SLOT (buttonValidarClicked()));
+        connect(this->buttonValidar, SIGNAL (clicked()), this, SLOT (buttonValidarClicked()));
         connect(this->buttonCambiarInicial, SIGNAL (clicked()), this, SLOT (buttonCambiarInicialClicked()));
         connect(this->buttonCambiarFinal, SIGNAL (clicked()), this, SLOT (buttonCambiarFinalClicked()));
+        connect(this->buttonAgregar, SIGNAL (clicked()), this, SLOT (buttonAgregarClicked()));
 
     } // setupUi
 
@@ -220,25 +221,35 @@ public:
     } // retranslateUi
     
 private slots:
+    
     void buttonValidarClicked(){
-        QString palabra = QInputDialog::getText(this, "exam", "percen", QLineEdit::Normal,nullptr);
-        
+        bool ok;
+        QString palabra = QInputDialog::getText(this, "Simulador-MT", "Ingrese la palabra que desee validar:", QLineEdit::Normal, nullptr, &ok);
         
     }
     void buttonModificarClicked(){};
     void buttonEliminarClicked(){};
-    void buttonAgregarClicked(){};
-    void buttonCambiarFinalClicked(){
-        QString palabra = QInputDialog::getText(this, "exam", "Ingrese estado final:", QLineEdit::Normal, nullptr);
-        labelEstadoFinal->setText(palabra);
-        
+    void buttonAgregarClicked(){
+        DialogTransicion dialog;
+        int r = dialog.exec();
     };
+    
+    void buttonCambiarFinalClicked(){
+        bool ok;
+        QString palabra = QInputDialog::getText(this, "Simulador-MT", "Ingrese estado final:", QLineEdit::Normal, nullptr, &ok);
+        if (ok)
+            labelEstadoFinal->setText(palabra);
+    };
+    
     void buttonCambiarInicialClicked(){
-        QString palabra = QInputDialog::getText(this, "exam", "Ingrese estado incial:", QLineEdit::Normal, nullptr);
-        labelEstadoInicial->setText(palabra);
+        bool ok;
+        QString palabra = QInputDialog::getText(this, "Simulador-MT", "Ingrese estado incial:", QLineEdit::Normal, nullptr, &ok);
+        if(ok)
+            labelEstadoInicial->setText(palabra);
     };
 };
 
+    
 
 
 #endif // UI_LAYOUT_H
