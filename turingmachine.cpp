@@ -11,11 +11,12 @@
 TuringMachine::TuringMachine() : p(nullptr), cinta(nullptr), transiciones(nullptr), palabra(""), estado_inicial(""), estado_final(""){    }
 
 int TuringMachine::validarPalabra(string palabra){
-    
+    //liberar memoria de la cinta anterior
     cinta = crear_cinta(palabra.at(0));
     for(int i(1); i < (int)palabra.length(); i++){
         agregar_derecha_nodo_cinta(&cinta, palabra.at(i));
     }
+    //liberar memoria del puntero anterior
     p = crear_puntero(cinta, TuringMachine::estado_inicial);
     while(!TuringMachine::leer_transicion()){}
     
@@ -31,7 +32,6 @@ bool TuringMachine::leer_transicion(){
     while(trans != NULL){
         if ( trans->transicion->estado_lectura.compare(p->estado_actual) == 0 && trans->transicion->simbolo_lectura == p->posicion->caracter){
             if(trans->transicion->movimiento_puntero == 'd' || trans->transicion->movimiento_puntero == 'D'){
-                //movimiento a la derecha
                 p->posicion->caracter = trans->transicion->simbolo_destino;
                 if (p->posicion->derecha == NULL){
                     agregar_derecha_nodo_cinta(&cinta, ' ');
@@ -39,7 +39,6 @@ bool TuringMachine::leer_transicion(){
                 p->posicion = p->posicion->derecha;
                 p->estado_actual = trans->transicion->estado_destino;
             }else{
-                //movimiento izquierda
                 p->posicion->caracter = trans->transicion->simbolo_destino;
                 if (p->posicion->izquierda == NULL){
                     agregar_izquierda_nodo_cinta(&cinta, ' ');

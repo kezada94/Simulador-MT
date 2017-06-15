@@ -208,7 +208,7 @@ public:
 
     void retranslateUi()
     {
-        setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
+        setWindowTitle(QApplication::translate("MainWindow", "Simulador-MT", Q_NULLPTR));
         actionSalir->setText(QApplication::translate("MainWindow", "&Salir", Q_NULLPTR));
         actionInstrucciones->setText(QApplication::translate("MainWindow", "&Instrucciones", Q_NULLPTR));
         actionAcerca_de->setText(QApplication::translate("MainWindow", "&Acerca de...", Q_NULLPTR));
@@ -249,10 +249,10 @@ public:
         
     }
     void buttonModificarClicked(){
-        //FALTA AGREGAR CONSTRUCTOR A DIALOG
+        //FALTA AGREGAR CONSTRUCTOR A DIALOG en DialogTransicion
     };
     void buttonEliminarClicked(){
-        //FALTA BUSCAR Y ELIMINAR TRANSICION
+        //FALTA BUSCAR Y ELIMINAR TRANSICION en TuringMachine class
     };
     void buttonAgregarClicked(){
         DialogTransicion *dialog = new DialogTransicion;
@@ -273,6 +273,7 @@ public:
             }
 
         }
+        //falta destructor del DialogTransicion
     };
     
     void buttonCambiarFinalClicked(){
