@@ -10,7 +10,7 @@
 
 TuringMachine::TuringMachine() : p(nullptr), cinta(nullptr), transiciones(nullptr), palabra(""), estado_inicial(""), estado_final(""){    }
 
-bool TuringMachine::validarPalabra(string palabra){
+int TuringMachine::validarPalabra(string palabra){
     
     cinta = crear_cinta(palabra.at(0));
     for(int i(1); i < (int)palabra.length(); i++){
@@ -20,9 +20,9 @@ bool TuringMachine::validarPalabra(string palabra){
     while(!TuringMachine::leer_transicion()){}
     
     if (p->estado_actual.compare(estado_final)){
-        return true;
+        return 0;
     }
-    return false;
+    return 1;
     
 }
 
@@ -51,5 +51,29 @@ bool TuringMachine::leer_transicion(){
         }
         trans = trans->siguiente;
     }
-    return false;
+    return false ;
+}
+
+nodo_trans* TuringMachine::getTransicion(){
+    return transiciones;
+}
+
+void TuringMachine::setTransicion(nodo_trans* tran){
+    transiciones = tran;
+}
+
+string TuringMachine::getEstado_final(){
+    return estado_final;
+}
+
+void TuringMachine::setEstado_final(string a){
+    estado_final = a;
+}
+
+string TuringMachine::getEstado_inicial(){
+    return estado_inicial;
+}
+
+void TuringMachine::setEstado_inicial(string a){
+    estado_inicial = a;
 }

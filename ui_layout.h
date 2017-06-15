@@ -16,7 +16,7 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QListView>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -28,11 +28,13 @@
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QMessageBox>
 
+#include "turingmachine.hpp"
 #include "dialog_transicion.hpp"
 
 class Ui_MainWindow : public QMainWindow
 {
     Q_OBJECT
+
 public:
     QAction *actionSalir;
     QAction *actionInstrucciones;
@@ -42,7 +44,7 @@ public:
     QGridLayout *gridLayoutMain;
     QVBoxLayout *verticalLayoutTrans;
     QLabel *label_Transicion;
-    QListView *listView_Transicion;
+    QListWidget *listView_Transicion;
     QVBoxLayout *verticalLayoutButtons;
     QSpacerItem *verticalSpacerTop;
     QPushButton *buttonAgregar;
@@ -62,9 +64,15 @@ public:
     QMenu *menuArchivo;
     QMenu *menuAyuda;
     QStatusBar *statusbar;
-
+    TuringMachine *turing;
+    
     Ui_MainWindow()
     {
+        turing = new TuringMachine();
+        
+        
+        
+        
         if (this->objectName().isEmpty())
             this->setObjectName(QStringLiteral("MainWindow"));
         this->resize(511, 334);
@@ -89,7 +97,7 @@ public:
 
         verticalLayoutTrans->addWidget(label_Transicion);
 
-        listView_Transicion = new QListView(gridLayoutWidget);
+        listView_Transicion = new QListWidget(gridLayoutWidget);
         listView_Transicion->setObjectName(QStringLiteral("listView_Transicion"));
 
         verticalLayoutTrans->addWidget(listView_Transicion);
@@ -121,7 +129,6 @@ public:
         verticalSpacerBottom = new QSpacerItem(20, 110, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayoutButtons->addItem(verticalSpacerBottom);
-
 
         gridLayoutMain->addLayout(verticalLayoutButtons, 0, 1, 1, 1);
 
@@ -220,33 +227,92 @@ public:
         menuAyuda->setTitle(QApplication::translate("MainWindow", "A&yuda", Q_NULLPTR));
     } // retranslateUi
     
-private slots:
+    private slots:
     
     void buttonValidarClicked(){
         bool ok;
         QString palabra = QInputDialog::getText(this, "Simulador-MT", "Ingrese la palabra que desee validar:", QLineEdit::Normal, nullptr, &ok);
+        if(ok){
+            if(palabra.isEmpty()){
+                QMessageBox msg;
+                msg.setText("La palabra no puede ir vacia!");
+                msg.exec();
+            }else{
+                int a = turing->validarPalabra(palabra.toStdString());
+                if(a == 0){
+                    QMessageBox msg;
+                    msg.setText("La palabra es aceptada por este automata!");
+                    msg.exec();
+                }
+            }
+        }
         
     }
-    void buttonModificarClicked(){};
-    void buttonEliminarClicked(){};
+    void buttonModificarClicked(){
+        //FALTA AGREGAR CONSTRUCTOR A DIALOG
+    };
+    void buttonEliminarClicked(){
+        //FALTA BUSCAR Y ELIMINAR TRANSICION
+    };
     void buttonAgregarClicked(){
-        DialogTransicion dialog;
-        int r = dialog.exec();
+        DialogTransicion *dialog = new DialogTransicion;
+        int r = dialog->exec();
+        if(r == 2){
+            if(turing->getTransicion() == nullptr){
+                turing->setTransicion(crear_nodo_trans(dialog->trans));
+            }else{
+                nodo_trans *transi = turing->getTransicion();
+                agregar_nodo_trans(&transi, dialog->trans);
+            }
+            listView_Transicion->clear();
+            nodo_trans *hel = turing->getTransicion();
+            while (hel != NULL) {
+                string a("∂( " + hel->transicion->estado_lectura + " , " + hel->transicion->simbolo_lectura + " ) = ( " + hel->transicion->estado_destino + " , " + hel->transicion->simbolo_destino + " , " + hel->transicion->movimiento_puntero + ")");
+                listView_Transicion->addItem(QString::fromStdString(a));
+                hel = hel->siguiente;
+            }
+
+        }
     };
     
     void buttonCambiarFinalClicked(){
         bool ok;
         QString palabra = QInputDialog::getText(this, "Simulador-MT", "Ingrese estado final:", QLineEdit::Normal, nullptr, &ok);
-        if (ok)
-            labelEstadoFinal->setText(palabra);
+        if (ok){
+            if (palabra.isEmpty()){
+                QMessageBox msg;
+                msg.setText("Estado final no puede ir vacio!!");
+                msg.exec();
+            }else if(palabra.length() > 2){
+                QMessageBox msg;
+                msg.setText("Maximo 2 caracteres para el nombre del estado!");
+                msg.exec();
+            }else{
+                labelEstadoFinal->setText(palabra);
+                turing->setEstado_final(palabra.toStdString());
+            }
+        }
     };
     
     void buttonCambiarInicialClicked(){
         bool ok;
         QString palabra = QInputDialog::getText(this, "Simulador-MT", "Ingrese estado incial:", QLineEdit::Normal, nullptr, &ok);
-        if(ok)
-            labelEstadoInicial->setText(palabra);
+        if(ok){
+            if (palabra.isEmpty()){
+                QMessageBox msg;
+                msg.setText("Maximo 2 caracteres para el nombre del estado!");
+                msg.exec();
+            }else if(palabra.length() > 2){
+                QMessageBox msg;
+                msg.setText("Estado inicial no puede ir vacio!!");
+                msg.exec();
+            }else{
+                labelEstadoInicial->setText(palabra);
+                turing->setEstado_inicial(palabra.toStdString());
+            }
+        }
     };
+    
 };
 
     

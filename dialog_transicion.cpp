@@ -57,6 +57,9 @@ DialogTransicion::DialogTransicion(QWidget *parent) : QDialog(parent)
     cancel = new QPushButton("Cancelar");
     
     QHBoxLayout *buttonlayout = new QHBoxLayout;
+    
+    QSpacerItem *buttonspacer = new QSpacerItem(120, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    buttonlayout->addItem(buttonspacer);
     buttonlayout->addWidget(cancel);
     buttonlayout->addWidget(ok);
     
@@ -87,11 +90,16 @@ DialogTransicion::DialogTransicion(QWidget *parent) : QDialog(parent)
 }
 
 void DialogTransicion::buttonOkClickedSlot(){
-    if(edit_movimiento->text().isEmpty() && edit_estado_destino->text().isEmpty() && edit_estado_lectura->text().isEmpty() && edit_simbolo_destino->text().isEmpty() && edit_simbolo_lectura->text().isEmpty()){
+    if(edit_movimiento->text().isEmpty() || edit_estado_destino->text().isEmpty() || edit_estado_lectura->text().isEmpty() || edit_simbolo_destino->text().isEmpty() || edit_simbolo_lectura->text().isEmpty()){
+        QMessageBox msg;
+        msg.setText("Ningun campo puede estar vacio!");
+        msg.exec();
         return;
     }
-    this->done(0);
+    this->trans = crear_transicion(edit_estado_lectura->text().toStdString(), edit_simbolo_lectura->text().at(0).toLatin1(), edit_estado_destino->text().toStdString(), edit_simbolo_destino->text().at(0).toLatin1(), edit_movimiento->text().at(0).toLatin1());
+
+    this->done(2);
 }
 void DialogTransicion::buttonCancelClickedSlot(){
-    this->done(2);
+    this->done(1);
 }

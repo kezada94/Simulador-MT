@@ -12,14 +12,15 @@
 #include "turingstructs.h"
 
 
-class TuringMachine {
-    
+
+class TuringMachine{
+
 public:
     TuringMachine();
     
     puntero getPuntero();
     nodo_cinta getCinta();
-    nodo_trans getTransicion();
+    nodo_trans* getTransicion();
     string getPalabra();
     string getEstado_final();
     string getEstado_inicial();
@@ -30,7 +31,7 @@ public:
     void setEstado_final(string fin);
     void setEstado_inicial(string ini);
     
-    bool validarPalabra(string palabra);
+    int validarPalabra(string palabra);
     bool leer_transicion();
     
 private:

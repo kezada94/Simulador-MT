@@ -15,6 +15,8 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QMessageBox>
+#include "turingstructs.h"
 
 
 class DialogTransicion : public QDialog
@@ -23,6 +25,7 @@ class DialogTransicion : public QDialog
     
 public:
     DialogTransicion(QWidget *parent = 0);
+    transicion *trans;
     
 signals:
     void buttonOkClicked();
