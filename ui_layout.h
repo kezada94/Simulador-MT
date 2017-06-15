@@ -107,7 +107,7 @@ public:
 
         verticalLayoutButtons = new QVBoxLayout();
         verticalLayoutButtons->setObjectName(QStringLiteral("verticalLayoutButtons"));
-        verticalSpacerTop = new QSpacerItem(20, 80, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacerTop = new QSpacerItem(20, 30, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayoutButtons->addItem(verticalSpacerTop);
 
@@ -115,11 +115,6 @@ public:
         buttonAgregar->setObjectName(QStringLiteral("buttonAgregar"));
 
         verticalLayoutButtons->addWidget(buttonAgregar);
-
-        buttonModificar = new QPushButton(gridLayoutWidget);
-        buttonModificar->setObjectName(QStringLiteral("buttonModificar"));
-
-        verticalLayoutButtons->addWidget(buttonModificar);
 
         buttonEliminar = new QPushButton(gridLayoutWidget);
         buttonEliminar->setObjectName(QStringLiteral("buttonEliminar"));
@@ -203,6 +198,12 @@ public:
         connect(this->buttonCambiarInicial, SIGNAL (clicked()), this, SLOT (buttonCambiarInicialClicked()));
         connect(this->buttonCambiarFinal, SIGNAL (clicked()), this, SLOT (buttonCambiarFinalClicked()));
         connect(this->buttonAgregar, SIGNAL (clicked()), this, SLOT (buttonAgregarClicked()));
+        
+        connect(this->actionSalir, SIGNAL (triggered()), this, SLOT (salir()));
+        connect(this->actionInstrucciones, SIGNAL (triggered()), this, SLOT (mostrarInstrucciones()));
+        connect(this->actionAcerca_de, SIGNAL (triggered()), this, SLOT (mostrarAcercaDe()));
+
+
 
     } // setupUi
 
@@ -214,12 +215,11 @@ public:
         actionAcerca_de->setText(QApplication::translate("MainWindow", "&Acerca de...", Q_NULLPTR));
         label_Transicion->setText(QApplication::translate("MainWindow", "Transiciones", Q_NULLPTR));
         buttonAgregar->setText(QApplication::translate("MainWindow", "Agregar", Q_NULLPTR));
-        buttonModificar->setText(QApplication::translate("MainWindow", "Modificar", Q_NULLPTR));
         buttonEliminar->setText(QApplication::translate("MainWindow", "Eliminar", Q_NULLPTR));
         labelFinal->setText(QApplication::translate("MainWindow", "Estado final:", Q_NULLPTR));
-        buttonCambiarFinal->setText(QApplication::translate("MainWindow", "Cambiar", Q_NULLPTR));
+        buttonCambiarFinal->setText(QApplication::translate("MainWindow", "Cambiar final", Q_NULLPTR));
         labelInicial->setText(QApplication::translate("MainWindow", "Estado incial:", Q_NULLPTR));
-        buttonCambiarInicial->setText(QApplication::translate("MainWindow", "Cambiar", Q_NULLPTR));
+        buttonCambiarInicial->setText(QApplication::translate("MainWindow", "Cambiar inicial", Q_NULLPTR));
         labelEstadoFinal->setText(QApplication::translate("MainWindow", "<estado final>", Q_NULLPTR));
         labelEstadoInicial->setText(QApplication::translate("MainWindow", "<estado inicial>", Q_NULLPTR));
         buttonValidar->setText(QApplication::translate("MainWindow", "Validar", Q_NULLPTR));
@@ -248,9 +248,6 @@ public:
         }
         
     }
-    void buttonModificarClicked(){
-        //FALTA AGREGAR CONSTRUCTOR A DIALOG en DialogTransicion
-    };
     void buttonEliminarClicked(){
         //FALTA BUSCAR Y ELIMINAR TRANSICION en TuringMachine class
     };
@@ -313,6 +310,18 @@ public:
             }
         }
     };
+    void salir(){
+        QApplication::quit();
+    }
+    
+    void mostrarInstrucciones(){
+        QMessageBox msg;
+        msg.setText("Instrucciones:\n1) Presione el boton \"Agregar\" para ingresar las transiciones de la Maquina de Turing. \n\n2) Presione los botones \"Cambiar inicial\" y \"Cambiar final\" para ingresar estados final e inicial. \n\n3) Presione el boton \"Validar\" para ingresar la palabra que desee validar.");
+        msg.exec();
+    };
+    
+    void mostrarAcercaDe(){};
+    
     
 };
 

@@ -25,6 +25,7 @@ class DialogTransicion : public QDialog
     
 public:
     DialogTransicion(QWidget *parent = 0);
+    //~DialogTransicion();
     transicion *trans;
     
 signals:

@@ -85,6 +85,7 @@ DialogTransicion::DialogTransicion(QWidget *parent) : QDialog(parent)
     
     setLayout(mainlayout);
     
+    
     connect(ok, SIGNAL(clicked()), this, SLOT(buttonOkClickedSlot()));
     connect(cancel, SIGNAL(clicked()), this, SLOT(buttonCancelClickedSlot()));
 }
