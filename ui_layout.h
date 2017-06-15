@@ -270,7 +270,7 @@ public:
             }
 
         }
-        //falta destructor del DialogTransicion
+        delete(dialog);
     };
     
     void buttonCambiarFinalClicked(){
@@ -320,7 +320,11 @@ public:
         msg.exec();
     };
     
-    void mostrarAcercaDe(){};
+    void mostrarAcercaDe(){
+        QMessageBox msg;
+        msg.setText("Simulador-MT: Simulaodr de una maquina de turing. \n\n\nDesarrollado por: Felipe Quezada, Roberto Melita y Felipe del Rio.");
+        msg.exec();
+    };
     
     
 };

@@ -104,3 +104,7 @@ void DialogTransicion::buttonOkClickedSlot(){
 void DialogTransicion::buttonCancelClickedSlot(){
     this->done(1);
 }
+
+DialogTransicion::~DialogTransicion(){
+    delete(this->trans);
+}

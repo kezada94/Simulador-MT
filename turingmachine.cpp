@@ -1,21 +1,15 @@
-//
-//  turingmachine.cpp
-//  
-//
-//  Created by Mac on 11-06-17.
-//
-//
-
 #include "turingmachine.hpp"
 
 TuringMachine::TuringMachine() : p(nullptr), cinta(nullptr), transiciones(nullptr), palabra(""), estado_inicial(""), estado_final(""){    }
 
 int TuringMachine::validarPalabra(string palabra){
     //liberar memoria de la cinta anterior
+    
     cinta = crear_cinta(palabra.at(0));
     for(int i(1); i < (int)palabra.length(); i++){
         agregar_derecha_nodo_cinta(&cinta, palabra.at(i));
     }
+    
     //liberar memoria del puntero anterior
     p = crear_puntero(cinta, TuringMachine::estado_inicial);
     while(!TuringMachine::leer_transicion()){}
