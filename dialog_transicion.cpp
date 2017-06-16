@@ -8,10 +8,12 @@
 
 #include "dialog_transicion.hpp"
 
+//Constructor de DialogTransicion
 DialogTransicion::DialogTransicion(QWidget *parent) : QDialog(parent)
 {
-    //creando atributos del dialog
+    //creando y configurando los atributos del dialog
     QLabel *texto = new QLabel("Ingrese la transicion que desea agregar:");
+    QLabel *ejemplo = new QLabel("Utilize: \n ∂(estado actual, lectura) = (estado destino, marca, movimiento<D ó I>)");
     
     delta = new QLabel("∂(");
     delta->setStyleSheet("font:16pt;");
@@ -81,6 +83,7 @@ DialogTransicion::DialogTransicion(QWidget *parent) : QDialog(parent)
     
     mainlayout->addWidget(texto);
     mainlayout->addLayout(layout);
+    mainlayout->addWidget(ejemplo);
     mainlayout->addLayout(buttonlayout);
     
     setLayout(mainlayout);
@@ -90,6 +93,7 @@ DialogTransicion::DialogTransicion(QWidget *parent) : QDialog(parent)
     connect(cancel, SIGNAL(clicked()), this, SLOT(buttonCancelClickedSlot()));
 }
 
+//Funcion llamada al hacer click en el boton "Ingresar": comprueba si el ingreso fue vacio, si no crea la transicion y devuelve codigo 2
 void DialogTransicion::buttonOkClickedSlot(){
     if(edit_movimiento->text().isEmpty() || edit_estado_destino->text().isEmpty() || edit_estado_lectura->text().isEmpty() || edit_simbolo_destino->text().isEmpty() || edit_simbolo_lectura->text().isEmpty()){
         QMessageBox msg;
@@ -101,10 +105,11 @@ void DialogTransicion::buttonOkClickedSlot(){
 
     this->done(2);
 }
+//funcion llamada al hacer click en el boton "Cancelar": cierra el dialogo con codigo 1;
 void DialogTransicion::buttonCancelClickedSlot(){
     this->done(1);
 }
-
+//Destructor de la clase: Libera la memoria utilizada por la transicion trans
 DialogTransicion::~DialogTransicion(){
     delete(this->trans);
 }

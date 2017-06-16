@@ -1,10 +1,3 @@
-//
-//  dialog_transicion.hpp
-//  
-//
-//  Created by Mac on 14-06-17.
-//
-//
 
 #ifndef dialog_transicion_hpp
 #define dialog_transicion_hpp
@@ -54,4 +47,4 @@ private:
     QPushButton *cancel;
 };
 
-#endif /* dialog_transicion_hpp */
+#endif

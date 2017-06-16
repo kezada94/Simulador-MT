@@ -33,6 +33,10 @@ public:
     
     int validarPalabra(string palabra);
     bool leer_transicion();
+    void eliminarTransicion(nodo_trans** transiciones , transicion* eliminar);
+    void liberarCintaAnterior();
+    void liberarPunteroAnterior();
+    
     
 private:
     puntero* p;

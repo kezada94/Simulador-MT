@@ -1,10 +1,3 @@
-/********************************************************************************
-** Form generated from reading UI file 'layout.ui'
-**
-** Created by: Qt User Interface Compiler version 5.8.0
-**
-** WARNING! All changes made in this file will be lost when recompiling UI file!
-********************************************************************************/
 
 #ifndef UI_LAYOUT_H
 #define UI_LAYOUT_H
@@ -31,10 +24,12 @@
 #include "turingmachine.hpp"
 #include "dialog_transicion.hpp"
 
+//Clase principal la cual contendra todos los elementos del software
 class Ui_MainWindow : public QMainWindow
 {
     Q_OBJECT
-
+    
+//Declaracion de los atributos publicos de la clase
 public:
     QAction *actionSalir;
     QAction *actionInstrucciones;
@@ -66,13 +61,13 @@ public:
     QStatusBar *statusbar;
     TuringMachine *turing;
     
+    //Contructor de la clase: Crea los elementos que tendra el software y los configura correctamente
     Ui_MainWindow()
     {
+        //Objeto del tipo TuringMachine que contiene los atributos y metodos necesarios para funcionar como maquina de turing
         turing = new TuringMachine();
         
-        
-        
-        
+        //Creacion y configuracion de atributos
         if (this->objectName().isEmpty())
             this->setObjectName(QStringLiteral("MainWindow"));
         this->resize(511, 334);
@@ -192,20 +187,22 @@ public:
         menuAyuda->addSeparator();
         menuAyuda->addAction(actionAcerca_de);
 
+        //Agrega el texto a mostrar en cada elemento.
         retranslateUi();
         
-        connect(this->buttonValidar, SIGNAL (clicked()), this, SLOT (buttonValidarClicked()));
-        connect(this->buttonCambiarInicial, SIGNAL (clicked()), this, SLOT (buttonCambiarInicialClicked()));
-        connect(this->buttonCambiarFinal, SIGNAL (clicked()), this, SLOT (buttonCambiarFinalClicked()));
-        connect(this->buttonAgregar, SIGNAL (clicked()), this, SLOT (buttonAgregarClicked()));
-        
-        connect(this->actionSalir, SIGNAL (triggered()), this, SLOT (salir()));
-        connect(this->actionInstrucciones, SIGNAL (triggered()), this, SLOT (mostrarInstrucciones()));
-        connect(this->actionAcerca_de, SIGNAL (triggered()), this, SLOT (mostrarAcercaDe()));
+        //Conecta los eventos con un cierto metodo de la clase
+        connect(this->buttonValidar         , SIGNAL (clicked())    , this, SLOT (buttonValidarClicked()));
+        connect(this->buttonCambiarInicial  , SIGNAL (clicked())    , this, SLOT (buttonCambiarInicialClicked()));
+        connect(this->buttonCambiarFinal    , SIGNAL (clicked())    , this, SLOT (buttonCambiarFinalClicked()));
+        connect(this->buttonAgregar         , SIGNAL (clicked())    , this, SLOT (buttonAgregarClicked()));
+        connect(this->buttonEliminar        , SIGNAL (clicked())    , this, SLOT (buttonEliminarClicked()));
+        connect(this->actionSalir           , SIGNAL (triggered())  , this, SLOT (salir()));
+        connect(this->actionInstrucciones   , SIGNAL (triggered())  , this, SLOT (mostrarInstrucciones()));
+        connect(this->actionAcerca_de       , SIGNAL (triggered())  , this, SLOT (mostrarAcercaDe()));
 
 
 
-    } // setupUi
+    }
 
     void retranslateUi()
     {
@@ -225,12 +222,14 @@ public:
         buttonValidar->setText(QApplication::translate("MainWindow", "Validar", Q_NULLPTR));
         menuArchivo->setTitle(QApplication::translate("MainWindow", "&Archivo", Q_NULLPTR));
         menuAyuda->setTitle(QApplication::translate("MainWindow", "A&yuda", Q_NULLPTR));
-    } // retranslateUi
+    }
+    //Slots: funciones que seran llamadas cuando ocurra un cierto evento.
+private slots:
     
-    private slots:
-    
+    //Funcion llamada cuando el boton "Validar" sea clickeado
     void buttonValidarClicked(){
         bool ok;
+        //Muestra un cuadro de dialogo esperando por una entrada de texto del usuario y la guarda en la variable 'palabra'
         QString palabra = QInputDialog::getText(this, "Simulador-MT", "Ingrese la palabra que desee validar:", QLineEdit::Normal, nullptr, &ok);
         if(ok){
             if(palabra.isEmpty()){
@@ -238,29 +237,46 @@ public:
                 msg.setText("La palabra no puede ir vacia!");
                 msg.exec();
             }else{
-                int a = turing->validarPalabra(palabra.toStdString());
-                if(a == 0){
+                //llama al metodo validarPalabra de TuringMachine y almacena la respues en 'a'
+                if(turing->getTransicion() == nullptr || turing->getEstado_final().length() == 0 || turing->getEstado_inicial().length() == 0){
                     QMessageBox msg;
-                    msg.setText("La palabra es aceptada por este automata!");
+                    msg.setText("Error. Asegurese de ingresar transiciones y ambos, estado final e inicial antes de validar una palabra!");
                     msg.exec();
+                }else{
+                    int a = turing->validarPalabra(palabra.toStdString());
+                    if(a == 0){
+                        QMessageBox msg;
+                        msg.setText("La palabra: "+palabra+" \n...pertenece al lenguaje especificado por las transiciones de la Maquina de Turing :D");
+                        msg.exec();
+                    }else{
+                        QMessageBox msg;
+                        msg.setText("La palabra "+palabra+" \n...NO pertenece al lenguaje especificado por las transiciones de la Maquina de Turing... :(");
+                        msg.exec();
+                    }
                 }
             }
         }
-        
-    }
-    void buttonEliminarClicked(){
-        //FALTA BUSCAR Y ELIMINAR TRANSICION en TuringMachine class
     };
-    void buttonAgregarClicked(){
-        DialogTransicion *dialog = new DialogTransicion;
-        int r = dialog->exec();
-        if(r == 2){
-            if(turing->getTransicion() == nullptr){
-                turing->setTransicion(crear_nodo_trans(dialog->trans));
-            }else{
-                nodo_trans *transi = turing->getTransicion();
-                agregar_nodo_trans(&transi, dialog->trans);
+    
+    //Funcion llamada cuando el boton "Eliminar" sea clickeado
+    void buttonEliminarClicked(){
+        int index = -2;
+        QListWidgetItem *selected = listView_Transicion->selectedItems().first();
+        for(int i = 0, l = listView_Transicion->count(); i < l; i++)
+        {
+            if(listView_Transicion->item(i)->text() == selected->text())
+            {
+                index = i;
             }
+        }
+        if (index != -2){
+            nodo_trans* aux = turing->getTransicion();
+            while(index != 0){
+                aux = aux->siguiente;
+                index--;
+            }
+            nodo_trans *tr = turing->getTransicion();
+            turing->eliminarTransicion(&tr, aux->transicion);
             listView_Transicion->clear();
             nodo_trans *hel = turing->getTransicion();
             while (hel != NULL) {
@@ -268,11 +284,37 @@ public:
                 listView_Transicion->addItem(QString::fromStdString(a));
                 hel = hel->siguiente;
             }
+            listView_Transicion->setCurrentRow(0);
 
         }
-        delete(dialog);
     };
     
+    //Funcion llamada cuando el boton "Agregar" sea clickeado
+    void buttonAgregarClicked(){
+        //Crea un nuevo objeto del tipo DialogTransicion
+        DialogTransicion *dialog = new DialogTransicion;
+        int r = dialog->exec();
+        if(r == 2){
+            //si existen transiciones: la agrega a la lista, si no crea una nueva lista
+            if(turing->getTransicion() == nullptr){
+                turing->setTransicion(crear_nodo_trans(dialog->trans));
+            }else{
+                nodo_trans *transi = turing->getTransicion();
+                agregar_nodo_trans(&transi, dialog->trans);
+            }
+            //limpia la lista de transiciones y las agrega nuevamente
+            listView_Transicion->clear();
+            nodo_trans *hel = turing->getTransicion();
+            while (hel != NULL) {
+                string a("∂( " + hel->transicion->estado_lectura + " , " + hel->transicion->simbolo_lectura + " ) = ( " + hel->transicion->estado_destino + " , " + hel->transicion->simbolo_destino + " , " + hel->transicion->movimiento_puntero + ")");
+                listView_Transicion->addItem(QString::fromStdString(a));
+                hel = hel->siguiente;
+            }
+            listView_Transicion->setCurrentRow(0);
+        }
+    };
+    
+    //Funcion llamada al presionar el boton "Cambiar final"
     void buttonCambiarFinalClicked(){
         bool ok;
         QString palabra = QInputDialog::getText(this, "Simulador-MT", "Ingrese estado final:", QLineEdit::Normal, nullptr, &ok);
@@ -292,9 +334,10 @@ public:
         }
     };
     
+    //Funcion llamada al presionar el boton "Cambiar inicial"
     void buttonCambiarInicialClicked(){
         bool ok;
-        QString palabra = QInputDialog::getText(this, "Simulador-MT", "Ingrese estado incial:", QLineEdit::Normal, nullptr, &ok);
+        QString palabra = QInputDialog::getText(this, "Simulador-MT", "Ingrese estado inicial:", QLineEdit::Normal, nullptr, &ok);
         if(ok){
             if (palabra.isEmpty()){
                 QMessageBox msg;
@@ -310,26 +353,25 @@ public:
             }
         }
     };
+    
+    //LLama al metodo estatico quit() de QApplication para cerrar la aplicacion.
     void salir(){
         QApplication::quit();
     }
     
+    //Muestra informacion al presionar el menu Instrucciones.
     void mostrarInstrucciones(){
         QMessageBox msg;
         msg.setText("Instrucciones:\n1) Presione el boton \"Agregar\" para ingresar las transiciones de la Maquina de Turing. \n\n2) Presione los botones \"Cambiar inicial\" y \"Cambiar final\" para ingresar estados final e inicial. \n\n3) Presione el boton \"Validar\" para ingresar la palabra que desee validar.");
         msg.exec();
     };
     
+    //Muestra informacion al presionar el menu Acerca de...
     void mostrarAcercaDe(){
         QMessageBox msg;
         msg.setText("Simulador-MT: Simulaodr de una maquina de turing. \n\n\nDesarrollado por: Felipe Quezada, Roberto Melita y Felipe del Rio.");
         msg.exec();
     };
     
-    
 };
-
-    
-
-
 #endif // UI_LAYOUT_H

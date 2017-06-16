@@ -8,7 +8,7 @@ using namespace std;
 
 struct nodo_cinta
 {
-	char caracter;				//Caracter actual en esa posicion de la 
+	char caracter;				//Caracter actual en esa posicion de la cinta
 	nodo_cinta* izquierda;
 	nodo_cinta* derecha;
 };
@@ -32,16 +32,6 @@ struct nodo_trans
 {
 	transicion* transicion;
 	nodo_trans* siguiente;
-};
-
-struct maquina_turing
-{
-	puntero* p;
-	nodo_cinta* cinta;
-	nodo_trans* transiciones;
-	string palabra;
-	string estado_incial;
-	string estado_final;
 };
 
 //Declaracion de funciones
