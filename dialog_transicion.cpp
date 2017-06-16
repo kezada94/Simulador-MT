@@ -14,6 +14,7 @@ DialogTransicion::DialogTransicion(QWidget *parent) : QDialog(parent)
     //creando y configurando los atributos del dialog
     QLabel *texto = new QLabel("Ingrese la transicion que desea agregar:");
     QLabel *ejemplo = new QLabel("Utilize: \n ∂(estado actual, lectura) = (estado destino, marca, movimiento<D ó I>)");
+    QLabel *blanco = new QLabel("Para ingresar Blancos utilice UN espacio Ej: ' '");
     
     delta = new QLabel("∂(");
     delta->setStyleSheet("font:16pt;");
@@ -84,6 +85,7 @@ DialogTransicion::DialogTransicion(QWidget *parent) : QDialog(parent)
     mainlayout->addWidget(texto);
     mainlayout->addLayout(layout);
     mainlayout->addWidget(ejemplo);
+    mainlayout->addWidget(blanco);
     mainlayout->addLayout(buttonlayout);
     
     setLayout(mainlayout);
