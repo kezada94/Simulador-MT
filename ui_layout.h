@@ -258,7 +258,8 @@ private slots:
         }
     };
     
-    //Funcion llamada cuando el boton "Eliminar" sea clickeado
+    //Funcion llamada cuando el boton "Eliminar" sea clickeado: se encarga de buscar el indice del elemento seleccionado en la lista y en base a él
+    //eliminar la transicion de la lista de transiciones en esa posicion, luego recarga la lista.
     void buttonEliminarClicked(){
         int index = -2;
         QListWidgetItem *selected = listView_Transicion->selectedItems().first();

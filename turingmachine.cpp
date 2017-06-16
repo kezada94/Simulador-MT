@@ -1,11 +1,12 @@
 #include "turingmachine.hpp"
-
+//Constructor de la clase
 TuringMachine::TuringMachine() : p(nullptr), cinta(nullptr), transiciones(nullptr), palabra(""), estado_inicial(""), estado_final(""){    }
 
+//Metodo utilizado para validar una palabra dada: devuelve un 0 si es aceptada y un 1 si es rechazada
 int TuringMachine::validarPalabra(string palabra){
-    bool leyo = true;;
+    bool leyo = true;
     liberarCintaAnterior();
-    
+
     cinta = crear_cinta(palabra.at(0));
     for(int i(1); i < (int)palabra.length(); i++){
         agregar_derecha_nodo_cinta(&cinta, palabra.at(i));
@@ -24,6 +25,8 @@ int TuringMachine::validarPalabra(string palabra){
     
 }
 
+//Metodo que lee una transicion correspondiente al estado actual del puntero y el simbolo que esta leyendo
+//si dicha transicion existe la lee y  devuelve true, si no, devuelve false
 bool TuringMachine::leer_transicion(){
     nodo_trans* trans(transiciones);
     while(trans != nullptr){
@@ -50,6 +53,7 @@ bool TuringMachine::leer_transicion(){
     return false;
 }
 
+//Metodo que busca la transicion especificada en la lista y la elimina.
 void TuringMachine::eliminarTransicion(nodo_trans** transicioness , transicion* eliminar){
     int a = 0;
     nodo_trans* cont = *transicioness;
@@ -79,6 +83,7 @@ void TuringMachine::eliminarTransicion(nodo_trans** transicioness , transicion* 
     }
 }
 
+//Metodo que libera la memoria utilizada por la cinta
 void TuringMachine::liberarCintaAnterior(){
     if (cinta != nullptr){
         nodo_cinta* aux = cinta;
@@ -95,10 +100,12 @@ void TuringMachine::liberarCintaAnterior(){
     }
 }
 
+//Metodo que libera la memoria utilizada por el puntero de la maquina de turing
 void TuringMachine::liberarPunteroAnterior(){
     delete(p);
 }
 
+//Getters y setters
 nodo_trans* TuringMachine::getTransicion(){
     return transiciones;
 }
