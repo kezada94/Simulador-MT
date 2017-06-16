@@ -30,7 +30,7 @@ struct transicion
 
 struct nodo_trans
 {
-	transicion* transicion;
+	transicion* transicio;
 	nodo_trans* siguiente;
 };
 

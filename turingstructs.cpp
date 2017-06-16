@@ -60,7 +60,7 @@ transicion* crear_transicion(string estado_lectura, char simbolo_lectura, string
 //Crea un nodo de la lista de transiciones con la transicion 'nueva_trans'
 nodo_trans* crear_nodo_trans(transicion* nueva_trans){
     nodo_trans* n = new nodo_trans;
-    n->transicion = nueva_trans;
+    n->transicio = nueva_trans;
     n->siguiente = NULL;
     
     return n;

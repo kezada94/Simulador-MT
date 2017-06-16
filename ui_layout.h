@@ -276,11 +276,11 @@ private slots:
                 index--;
             }
             nodo_trans *tr = turing->getTransicion();
-            turing->eliminarTransicion(&tr, aux->transicion);
+            turing->eliminarTransicion(&tr, aux->transicio);
             listView_Transicion->clear();
             nodo_trans *hel = turing->getTransicion();
             while (hel != NULL) {
-                string a("∂( " + hel->transicion->estado_lectura + " , " + hel->transicion->simbolo_lectura + " ) = ( " + hel->transicion->estado_destino + " , " + hel->transicion->simbolo_destino + " , " + hel->transicion->movimiento_puntero + ")");
+                string a("∂( " + hel->transicio->estado_lectura + " , " + hel->transicio->simbolo_lectura + " ) = ( " + hel->transicio->estado_destino + " , " + hel->transicio->simbolo_destino + " , " + hel->transicio->movimiento_puntero + ")");
                 listView_Transicion->addItem(QString::fromStdString(a));
                 hel = hel->siguiente;
             }
@@ -306,7 +306,7 @@ private slots:
             listView_Transicion->clear();
             nodo_trans *hel = turing->getTransicion();
             while (hel != NULL) {
-                string a("∂( " + hel->transicion->estado_lectura + " , " + hel->transicion->simbolo_lectura + " ) = ( " + hel->transicion->estado_destino + " , " + hel->transicion->simbolo_destino + " , " + hel->transicion->movimiento_puntero + ")");
+                string a("∂( " + hel->transicio->estado_lectura + " , " + hel->transicio->simbolo_lectura + " ) = ( " + hel->transicio->estado_destino + " , " + hel->transicio->simbolo_destino + " , " + hel->transicio->movimiento_puntero + ")");
                 listView_Transicion->addItem(QString::fromStdString(a));
                 hel = hel->siguiente;
             }

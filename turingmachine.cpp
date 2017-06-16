@@ -26,21 +26,21 @@ int TuringMachine::validarPalabra(string palabra){
 bool TuringMachine::leer_transicion(){
     nodo_trans* trans(transiciones);
     while(trans != nullptr){
-        if ( trans->transicion->estado_lectura.compare(p->estado_actual) == 0 && trans->transicion->simbolo_lectura == p->posicion->caracter){
-            if(trans->transicion->movimiento_puntero == 'd' || trans->transicion->movimiento_puntero == 'D'){
-                p->posicion->caracter = trans->transicion->simbolo_destino;
+        if ( trans->transicio->estado_lectura.compare(p->estado_actual) == 0 && trans->transicio->simbolo_lectura == p->posicion->caracter){
+            if(trans->transicio->movimiento_puntero == 'd' || trans->transicio->movimiento_puntero == 'D'){
+                p->posicion->caracter = trans->transicio->simbolo_destino;
                 if (p->posicion->derecha == NULL){
                     agregar_derecha_nodo_cinta(&cinta, ' ');
                 }
                 p->posicion = p->posicion->derecha;
-                p->estado_actual = trans->transicion->estado_destino;
+                p->estado_actual = trans->transicio->estado_destino;
             }else{
-                p->posicion->caracter = trans->transicion->simbolo_destino;
+                p->posicion->caracter = trans->transicio->simbolo_destino;
                 if (p->posicion->izquierda == NULL){
                     agregar_izquierda_nodo_cinta(&cinta, ' ');
                 }
                 p->posicion = p->posicion->izquierda;
-                p->estado_actual = trans->transicion->estado_destino;
+                p->estado_actual = trans->transicio->estado_destino;
             }
             return true;
         }
@@ -49,20 +49,20 @@ bool TuringMachine::leer_transicion(){
     return false;
 }
 
-void TuringMachine::eliminarTransicion(nodo_trans** transiciones , transicion* eliminar){
+void TuringMachine::eliminarTransicion(nodo_trans** transicioness , transicion* eliminar){
     int a = 0;
-    nodo_trans* cont = *transiciones;
+    nodo_trans* cont = *transicioness;
     while (cont != nullptr) {
         a++;
         cont = cont->siguiente;
     }
-    nodo_trans* aux = *transiciones;
-    nodo_trans* aux2 = *transiciones;
-    if (aux->transicion == eliminar){
-        transiciones = &aux->siguiente;
+    nodo_trans* aux = transiciones;
+    nodo_trans* aux2 = transiciones;
+    if (aux->transicio == eliminar){
+        transiciones = transiciones->siguiente;
     }else{
         aux = aux -> siguiente;
-        while(aux != NULL && aux -> transicion != eliminar){
+        while(aux != NULL && aux -> transicio != eliminar){
             aux = (aux) -> siguiente;
             aux2 = (aux2) -> siguiente;
         }
