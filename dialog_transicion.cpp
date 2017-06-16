@@ -34,7 +34,7 @@ DialogTransicion::DialogTransicion(QWidget *parent) : QDialog(parent)
     parentesis->setStyleSheet("font:16pt;");
     
     edit_estado_lectura = new QLineEdit;
-    edit_estado_lectura->setMaxLength(2);
+    edit_estado_lectura->setMaxLength(3);
     edit_estado_lectura->setMaximumWidth(30);
     
     edit_simbolo_lectura = new QLineEdit;
@@ -42,7 +42,7 @@ DialogTransicion::DialogTransicion(QWidget *parent) : QDialog(parent)
     edit_simbolo_lectura->setMaximumWidth(30);
     
     edit_estado_destino = new QLineEdit;
-    edit_estado_destino->setMaxLength(2);
+    edit_estado_destino->setMaxLength(3);
     edit_estado_destino->setMaximumWidth(30);
     
     edit_simbolo_destino = new QLineEdit;
@@ -98,6 +98,11 @@ void DialogTransicion::buttonOkClickedSlot(){
     if(edit_movimiento->text().isEmpty() || edit_estado_destino->text().isEmpty() || edit_estado_lectura->text().isEmpty() || edit_simbolo_destino->text().isEmpty() || edit_simbolo_lectura->text().isEmpty()){
         QMessageBox msg;
         msg.setText("Ningun campo puede estar vacio!");
+        msg.exec();
+        return;
+    }else if(edit_movimiento->text().toStdString().at(0) != 'd' && edit_movimiento->text().toStdString().at(0) != 'D' && edit_movimiento->text().toStdString().at(0) != 'i' && edit_movimiento->text().toStdString().at(0) != 'I'){
+        QMessageBox msg;
+        msg.setText("Solo utilice 'D' o 'I' para mover el puntero a la derecha o izquierda respectivamente!");
         msg.exec();
         return;
     }

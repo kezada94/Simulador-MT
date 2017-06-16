@@ -3,7 +3,7 @@
 TuringMachine::TuringMachine() : p(nullptr), cinta(nullptr), transiciones(nullptr), palabra(""), estado_inicial(""), estado_final(""){    }
 
 int TuringMachine::validarPalabra(string palabra){
-    
+    bool leyo = true;;
     liberarCintaAnterior();
     
     cinta = crear_cinta(palabra.at(0));
@@ -14,19 +14,20 @@ int TuringMachine::validarPalabra(string palabra){
     liberarPunteroAnterior();
     
     p = crear_puntero(cinta, TuringMachine::estado_inicial);
-    while(TuringMachine::leer_transicion()){}
-    
-    if (p->estado_actual.compare(estado_final)){
-        return 1;
+    while(leyo){
+        leyo = TuringMachine::leer_transicion();
+        if (leyo == true && p->estado_actual.compare(estado_final) == 0){
+            return 0;
+        }
     }
-    return 0;
+    return 1;
     
 }
 
 bool TuringMachine::leer_transicion(){
     nodo_trans* trans(transiciones);
     while(trans != nullptr){
-        if ( trans->transicio->estado_lectura.compare(p->estado_actual) == 0 && trans->transicio->simbolo_lectura == p->posicion->caracter){
+        if ( trans->transicio->estado_lectura.compare(p->estado_actual) == 0 && trans->transicio->simbolo_lectura == p->posicion->caracter ){
             if(trans->transicio->movimiento_puntero == 'd' || trans->transicio->movimiento_puntero == 'D'){
                 p->posicion->caracter = trans->transicio->simbolo_destino;
                 if (p->posicion->derecha == NULL){

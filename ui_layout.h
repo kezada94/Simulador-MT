@@ -246,11 +246,11 @@ private slots:
                     int a = turing->validarPalabra(palabra.toStdString());
                     if(a == 0){
                         QMessageBox msg;
-                        msg.setText("La palabra: "+palabra+" \n...pertenece al lenguaje especificado por las transiciones de la Maquina de Turing :D");
+                        msg.setText("La palabra: '"+palabra+"' pertenece al lenguaje especificado por las transiciones de la Maquina de Turing \n:D");
                         msg.exec();
                     }else{
                         QMessageBox msg;
-                        msg.setText("La palabra "+palabra+" \n...NO pertenece al lenguaje especificado por las transiciones de la Maquina de Turing... :(");
+                        msg.setText("La palabra '"+palabra+"' NO pertenece al lenguaje especificado por las transiciones de la Maquina de Turing... \n:(");
                         msg.exec();
                     }
                 }
@@ -323,9 +323,9 @@ private slots:
                 QMessageBox msg;
                 msg.setText("Estado final no puede ir vacio!!");
                 msg.exec();
-            }else if(palabra.length() > 2){
+            }else if(palabra.length() > 3){
                 QMessageBox msg;
-                msg.setText("Maximo 2 caracteres para el nombre del estado!");
+                msg.setText("Maximo 3 caracteres para el nombre del estado!");
                 msg.exec();
             }else{
                 labelEstadoFinal->setText(palabra);
@@ -341,11 +341,11 @@ private slots:
         if(ok){
             if (palabra.isEmpty()){
                 QMessageBox msg;
-                msg.setText("Maximo 2 caracteres para el nombre del estado!");
-                msg.exec();
-            }else if(palabra.length() > 2){
-                QMessageBox msg;
                 msg.setText("Estado inicial no puede ir vacio!!");
+                msg.exec();
+            }else if(palabra.length() > 3){
+                QMessageBox msg;
+                msg.setText("Maximo 3 caracteres para el nombre del estado!");
                 msg.exec();
             }else{
                 labelEstadoInicial->setText(palabra);
